@@ -1,0 +1,27 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: sonarqube
+  namespace: sonarqube
+  labels:
+    app: sonarqube
+    release: {{ .Release.Name }}
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+spec:
+  # tls:
+  #   - hosts:
+  #     - myfancy.domain.com
+  #     secretName: my-fancy-certs
+  rules:
+  # - host: myfancy.domain.com
+  - http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: sonar-svc
+            port: 
+              number: 9000
